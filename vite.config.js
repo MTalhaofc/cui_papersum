@@ -5,7 +5,7 @@ export default defineConfig({
     build: {
     },
     server: {
-        host: process.env.VITE_IP_ADDR || '0.0.0.0', // Use environment variable or default to '0.0.0.0'
+        host: '0.0.0.0', // Use environment variable or default to '0.0.0.0'
         port: 5173, // Ensure the port is available and correct
         fs: {
             strict: false,
