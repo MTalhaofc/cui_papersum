@@ -6,7 +6,7 @@
     "dev": "dotenvx run -- vite"
     ,
     "build": "vite build",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "npm run dev"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.19",
