@@ -3,8 +3,15 @@ import laravel from 'laravel-vite-plugin';
 
 export default defineConfig({
     build: {
-        outDir: 'public/build', // Output directory for Vite build assets
-        manifest: true,         // Ensure this is true to generate manifest.json
+        outDir: 'public/build', // Ensure this matches Laravel's expectations
+        manifest: true, // Generate manifest file
+    },
+    server: {
+        host: process.env.VITE_IP_ADDR || '0.0.0.0', // Use environment variable or default to '0.0.0.0'
+        port: 5173, // Ensure the port is available and correct
+        fs: {
+            strict: false,
+        },
     },
     plugins: [
         laravel({
