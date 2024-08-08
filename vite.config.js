@@ -5,11 +5,13 @@ export default defineConfig({
 
 
 
-
+    build: {
+        outDir: 'public/build', // Ensure this matches Laravel's expectations
+    },
     server:{
-        host: process.env.VITE_IP_ADDR || 'localhost',
+        host: '0.0.0.0',
         port: 5173, // Make sure the port is available
-        strictPort: true,
+        
    
 fs:{
     strict:false,
