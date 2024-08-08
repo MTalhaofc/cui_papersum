@@ -7,7 +7,7 @@ export default defineConfig({
 
 
     server:{
-host:"192.168.18.69",
+host:process.env.VITE_IP_ADDR,
    
 fs:{
     strict:false,
