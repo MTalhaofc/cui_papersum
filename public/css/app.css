@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css?family=Poppins:200i,400&display=swap');
+
+*{
+   font-family: 'Poppins', sans-serif; 
+}
+
+body{
+    min-height: 100vh;
+}
+footer{
+    position: sticky;
+    top: 100%;
+}
+@keyframes slideInFromBottom {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+h1.main {
+    position: relative;
+    animation: slideInFromBottom 1.5s ease-out;
+}
+span.main{
+color: #007FFF;
+}
+div.landing-page{
+    position: relative;
+    animation: slideInFromBottom 0.5s ease-out;
+}
