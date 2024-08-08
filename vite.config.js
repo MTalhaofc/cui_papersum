@@ -7,7 +7,9 @@ export default defineConfig({
 
 
     server:{
-host:process.env.VITE_IP_ADDR,
+        host: process.env.VITE_IP_ADDR || 'localhost',
+        port: 5173, // Make sure the port is available
+        strictPort: true,
    
 fs:{
     strict:false,
