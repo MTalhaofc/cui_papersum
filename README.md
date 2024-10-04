@@ -20,7 +20,7 @@
 </p>
 
 ### [+] Description
-CUIPaper Sum is a dedicated university website designed to support students by providing access to a comprehensive collection of past papers. Our mission is to assist juniors in their academic journey by offering them valuable resources to prepare for their exams, understand course materials, and excel in their studies. With an easy-to-navigate interface, students can quickly find and download past papers from various subjects and departments, ensuring they have the tools they need for success.
+CUIPaper Sum is a dedicated Comsats  university website designed to support students by providing access to a comprehensive collection of past papers. Our mission is to assist juniors in their academic journey by offering them valuable resources to prepare for their exams, understand course materials, and excel in their studies. With an easy-to-navigate interface, students can quickly find and download past papers from various subjects and departments, ensuring they have the tools they need for success.
 
 ### [+] Features
  - Students can get Past Papers of required Course.
