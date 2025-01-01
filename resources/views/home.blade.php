@@ -4,6 +4,16 @@
     <div class="container mx-auto mt-10 p-5 bg-white rounded-lg shadow-md">
         <h1 class="text-2xl font-bold mb-5">Past Papers</h1>
         
+        @if(session('urls'))
+    <div>
+        <h5>Uploaded Files:</h5>
+        <ul>
+            @foreach(session('urls') as $url)
+                <li><a href="{{ $url }}" target="_blank">{{ $url }}</a></li>
+            @endforeach
+        </ul>
+    </div>
+@endif
         <!-- Search Box -->
         <div class="max-w-md mx-auto mb-6">
             <div class="relative">
@@ -19,87 +29,134 @@
         </div>
 
         <!-- Search Results Container -->
-        <div id="search-results" class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full px-2">
+        <div id="search-results" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full px-4">
             @foreach($pastPapers as $pastPaper)
-            <div class="ml-4 mr-4 mt-2 rounded-md border border-gray-200 p-1 shadow-lg md:ml-0 md:mr-2">
-                <h5 class="text-xl font-semibold">{{ $pastPaper->subject }}</h5>
-                <div class="flex flex-row justify-between">
-                  <p class="text-sm font-medium text-black"> <strong>Course Code: </strong> <span class="font-normal"> {{ $pastPaper->coursecode }}</span></p>
-                  <div class="flex ">
-                    <p class=" text-sm font-bold md:ml-2">{{ $pastPaper->papertype }} - {{ $pastPaper->papertime }}</p>
-                  <div class="mr-4 ml-8">
-            
-                    <a href="{{ route('pastpapers.show', $pastPaper) }}" class="">
-                      <button class="rounded bg-blue-600 px-2 "><i class="fa-solid fa-angle-right" style="color: #ffffff;"></i></i></button>
+            <div class="p-4 bg-white rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-300">
+                <!-- Paper Title -->
+                <h5 class="text-lg font-bold text-gray-800 mb-2">{{ $pastPaper->subject }}</h5>
+                
+                <!-- Course Code -->
+                <p class="text-sm text-gray-600 mb-2">
+                    <strong>Course Code:</strong> 
+                    <span class="font-normal">{{ $pastPaper->coursecode }}</span>
+                </p>
+                
+                <!-- Paper Type and Time -->
+                <p class="text-sm text-gray-600 mb-2">
+                    <strong>Type:</strong> 
+                    <span class="font-normal">{{ $pastPaper->papertype }}</span>
+                    <strong> | Time:</strong> 
+                    <span class="font-normal">{{ $pastPaper->papertime }}</span>
+                </p>
+                
+                <!-- Teacher -->
+                <p class="text-sm text-gray-600 mb-4">
+                    <strong>Teacher:</strong> 
+                    <span class="font-normal">{{ $pastPaper->teacher }}</span>
+                </p>
+                
+                <!-- Actions -->
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <!-- View Paper Button -->
+                    <a href="{{ route('pastpapers.show', $pastPaper) }}" class="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg shadow-sm hover:bg-blue-700 transition-colors">
+                        <i class="fa-solid fa-eye mr-2"></i> View
                     </a>
-                  </div>
-
-                <p class="text-sm font-medium text-black"><strong> Teacher: </strong> <span class="font-normal"> {{ $pastPaper->teacher }}</span></p>
-              </div>
+                    
+                    <!-- Edit/Delete Buttons (if authorized) -->
                     @if(Auth::id() === $pastPaper->user_id)
-                        <a href="{{ route('pastpapers.edit', $pastPaper->id) }}" class="px-4 py-2 bg-yellow-500 text-white rounded-md shadow-sm hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2">Edit</a>
+                    <div class="flex flex-wrap gap-2">
+                        <!-- Edit Button -->
+                        <a href="{{ route('pastpapers.edit', $pastPaper->id) }}" class="px-4 py-2 bg-yellow-500 text-white rounded-lg shadow-sm hover:bg-yellow-600 transition-colors">
+                            <i class="fa-solid fa-pen"></i> Edit
+                        </a>
+                        
+                        <!-- Delete Button -->
                         <form action="{{ route('pastpapers.destroy', $pastPaper->id) }}" method="POST" class="inline">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 ml-2">Delete</button>
+                            <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-lg shadow-sm hover:bg-red-700 transition-colors">
+                                <i class="fa-solid fa-trash"></i> Delete
+                            </button>
                         </form>
+                    </div>
                     @endif
                 </div>
             </div>
-        
             @endforeach
         </div>
+        
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('search').addEventListener('keyup', function() {
-                const value = this.value;
-                fetch(`{{ route('pastpapersshow') }}?search=${value}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data); // Debug: log data received from the server
-                        let html = '';
-                        if(data.length > 0) {
-                            data.forEach(paper => {
-                                html += `
-                                    <div class="border border-gray-200 bg-white rounded-lg shadow-lg flex justify-between items-center p-3">
-                                        <div>
-                                            <h5 class="text-xl font-bold">${paper.subject}</h5>
-                                            <div class="mt-2 flex">
-                                                <p class="text-sm mr-5"><strong>Course Code:</strong> ${paper.coursecode}</p>
-                                                <p class="text-sm font-bold">${paper.papertype}</p>
-                                                <p class="text-sm font-bold ml-1"><strong> -</strong> ${paper.papertime}</p>
-                                            </div>
-                                            <div class="mt-2 flex">
-                                                <p class="text-sm mr-5"><strong>Teacher:</strong> ${paper.teacher}</p>
-                                            </div>
-                                        </div>
-                                        <div class="flex items-center">
-                                            <a href="${paper.url}" class="flex items-center px-3 py-2 bg-blue-600 text-white rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                                </svg>
-                                            </a>
-                                        </div>
-                                        ${paper.user_id === {{ Auth::id() }} ? `
-                                            <a href="/pastpapers/${paper.id}/edit" class="px-4 py-2 bg-yellow-500 text-white rounded-md shadow-sm hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2">Edit</a>
-                                            <form action="/pastpapers/${paper.id}" method="POST" class="inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 ml-2">Delete</button>
-                                            </form>
-                                        ` : ''}
-                                    </div>
-                                `;
-                            });
-                        } else {
-                            html = '<p class="text-center text-gray-500">Nothing to Show</p>';
+   <script>
+    $(document).ready(function () {
+        $("#search").on('keyup', function () {
+            var value = $(this).val();
+
+            $.ajax({
+                url: "{{ route('pastpapersshow_home') }}",
+                type: "GET",
+                data: {
+                    'search': value // Only send the search parameter
+                },
+                success: function (data) {
+                    var html = '';
+                    if (data.length > 0) {
+                        for (let i = 0; i < data.length; i++) {
+                            html += `
+    <div class="landing-page">
+        <div class="ml-4 mr-4 mt-2 hover:scale-105 hover:border-gray-600 hover:shadow-xl rounded-md border border-gray-200 p-4 shadow-lg md:ml-0 md:mr-2 bg-white">
+            <a href="${data[i].url}">
+                <h5 class="text-xl font-semibold">${data[i].subject}</h5>
+                <div class="flex flex-row justify-between">
+                    <p class="text-sm font-medium text-black">
+                        <strong>Course Code: </strong>
+                        <span class="font-normal">${data[i].coursecode}</span>
+                    </p>
+                    <div class="flex">
+                        <p class="text-sm font-bold md:ml-2">${data[i].papertype} - ${data[i].papertime}</p>
+                        <div class="mr-4 ml-8">
+                            <button class="rounded bg-blue-600 px-2">
+                                <i class="fa-solid fa-angle-right" style="color: #ffffff;"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-sm font-medium text-black">
+                    <strong>Teacher: </strong>
+                    <span class="font-normal">${data[i].teacher}</span>
+                </p>
+            </a>
+            <!-- Edit and Delete Buttons -->
+            <div class="flex flex-wrap items-center justify-start mt-4 gap-2">
+                <!-- Edit Button -->
+                <a href="/pastpapers/edit/${data[i].id}" class="px-4 py-2 bg-yellow-500 text-white rounded-lg shadow-sm hover:bg-yellow-600 transition-colors">
+                    <i class="fa-solid fa-pen"></i> Edit
+                </a>
+                <!-- Delete Button -->
+                <form action="/pastpapers/delete/${data[i].id}" method="POST" class="inline">
+                    <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-lg shadow-sm hover:bg-red-700 transition-colors">
+                        <i class="fa-solid fa-trash"></i> Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+`;
+
                         }
-                        document.getElementById('search-results').innerHTML = html;
-                    })
-                    .catch(error => console.error('AJAX Error:', error));
+                    } else {
+                        html = '<p class="text-center text-gray-500">No papers uploaded yet</p>';
+                    }
+                    $("#search-results").html(html); // Update search results container
+                },
+                error: function (xhr, status, error) {
+                    console.error('AJAX Error: ' + error);
+                }
             });
         });
-    </script>
+    });
+</script>
+
+    
+    
 @endsection

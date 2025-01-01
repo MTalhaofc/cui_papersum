@@ -33,15 +33,21 @@
             </div>
             
 
-            <!-- Existing images section -->
             <div class="mb-6">
                 <h3 class="text-xl font-semibold mb-4">Existing Images:</h3>
                 @foreach($pastpaper->images as $image)
                     <div class="flex items-center mb-4">
-                        <img src="{{ asset('storage/' . $image->file_path) }}" alt="{{ $pastpaper->subject }}" class="w-32 h-32 object-cover rounded-lg shadow-md">
+                        <!-- Display the image -->
+                        <img src="{{ $image->file_path }}" alt="{{ $pastpaper->subject }}" class="w-32 h-32 object-cover rounded-lg shadow-md">
+                        
                         <div class="ml-4 flex space-x-2">
-                            <button type="button" class="px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500" onclick="deleteImage('{{ route('pastpapers.delete_image', [$pastpaper->id, $image->id]) }}')">Delete</button>
-                            <a href="{{ asset('storage/' . $image->file_path) }}" download class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">Download</a>
+                            <!-- Delete button -->
+                            <button type="button" class="px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500" 
+                                onclick="deleteImage('{{ route('pastpapers.delete_image', [$pastpaper->id, $image->id]) }}')">
+                                Delete
+                            </button>
+            
+
                         </div>
                     </div>
                 @endforeach
@@ -58,20 +64,24 @@
 
         <!-- JavaScript for deleting images -->
         <script>
-            function deleteImage(url) {
+            function deleteImage(deleteUrl) {
                 if (confirm('Are you sure you want to delete this image?')) {
-                    fetch(url, {
+                    fetch(deleteUrl, {
                         method: 'DELETE',
                         headers: {
                             'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                            'Content-Type': 'application/json'
                         }
-                    }).then(response => {
-                        if (response.ok) {
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
                             location.reload();
                         } else {
-                            alert('Failed to delete image');
+                            alert('Failed to delete the image.');
                         }
+                    })
+                    .catch(error => {
+                        alert('An error occurred while deleting the image.');
                     });
                 }
             }

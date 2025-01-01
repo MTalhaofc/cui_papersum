@@ -8,9 +8,10 @@
     @vite('resources/css/app.css')
 
     <link rel="icon" href="{{ asset('assets/Browser_logo_cuipapersum.svg') }}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> --}}
+    <script src="/assets/jquery.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://cdn.tailwindcss.com"></script>
+    {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
     <link rel="stylesheet" href="{{ asset('css/app.css') }}"/>
     <script src="https://kit.fontawesome.com/e28e3997b3.js" crossorigin="anonymous"></script>
 
@@ -61,15 +62,7 @@
       </h6>
     </div>
   
-    <div class="flex flex-row mt-2 ml-auto mr-4">
-      <div class="flex flex-col">
-      <h6 class="text-xs" >Developed & Maintained by</h6>
-      <h6 class="text- hidden md:block">
-          Muhammad Talha 
-      </h6>
-    </div>
-      <img class="ml-2  hidden md:block h-8" src="{{ asset('assets/developer_image.png') }}" alt="Logo">
-    </div>
+    
   </div>
   
   <div class="container  px-1 pt-1">

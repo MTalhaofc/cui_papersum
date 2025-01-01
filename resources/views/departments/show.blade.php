@@ -17,34 +17,38 @@
         </div>
 
         <div id="search-results" class=" flex flex-col md:ml-2 md:flex-row flex-wrap mb-2 md:mb-2 justify-center landing-page ">
-            @foreach($pastPapers as $pastPaper)
-            
-            <div class="ml-4 mr-4 mt-2 md:w-1/3 hover:scale-105 hover:border-gray-600 hover:shahdow-xl rounded-md border border-gray-200 p-1 shadow-lg md:ml-0 md:mr-2">
-                <a href="{{ route('pastpapers.show', $pastPaper) }}" >
-                <h5 class="text-xl font-semibold">{{ $pastPaper->subject }}</h5>
-              <div class="flex flex-row justify-between">
-                <p class="text-sm font-medium text-black"> <strong>Course Code: </strong> <span class="font-normal"> {{ $pastPaper->coursecode }}</span></p>
-                <div class="flex ">
-                  <p class=" text-sm font-bold md:ml-2">{{ $pastPaper->papertype }} - {{ $pastPaper->papertime }}</p>
-                <div class="mr-4 ml-8">
-          
-                  
-                    <button class="rounded bg-blue-600 px-2 hover:bg-blue-800"><i class="fa-solid fa-angle-right" style="color: #ffffff;"></i></i></button>
-                  
+            @if($pastPapers->isEmpty())
+                <div class="text-center mt-5">
+                    <h4 class="text-black">No papers uploaded yet</h4>
                 </div>
-              </div>
-              </div>
-              <p class="text-sm font-medium text-black"><strong> Teacher: </strong> <span class="font-normal"> {{ $pastPaper->teacher }}</span></p>
-            </div>
-        </a>
-            @endforeach
-
-          </div>
-       
-        
-        
-        
-        
+            @else
+                @foreach($pastPapers as $pastPaper)
+                    <div class="ml-4 mr-4 mt-2 md:w-1/3 hover:scale-105 hover:border-gray-600 hover:shadow-xl rounded-md border border-gray-200 p-1 shadow-lg md:ml-0 md:mr-2">
+                        <a href="{{ route('pastpapers.show', $pastPaper) }}">
+                            <h5 class="text-xl font-semibold">{{ $pastPaper->subject }}</h5>
+                            <div class="flex flex-row justify-between">
+                                <p class="text-sm font-medium text-black"> 
+                                    <strong>Course Code: </strong> 
+                                    <span class="font-normal">{{ $pastPaper->coursecode }}</span>
+                                </p>
+                                <div class="flex">
+                                    <p class="text-sm font-bold md:ml-2">{{ $pastPaper->papertype }} - {{ $pastPaper->papertime }}</p>
+                                    <div class="mr-4 ml-8">
+                                        <button class="rounded bg-blue-600 px-2 hover:bg-blue-800">
+                                            <i class="fa-solid fa-angle-right" style="color: #ffffff;"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-sm font-medium text-black">
+                                <strong>Teacher: </strong>
+                                <span class="font-normal">{{ $pastPaper->teacher }}</span>
+                            </p>
+                        </a>
+                    </div>
+                @endforeach
+            @endif
+        </div>
     </div>
 
     <script>
@@ -67,45 +71,36 @@
                             for(let i = 0; i < data.length; i++) {
                                 html += `
                                 <div class="landing-page">
-    
-        <div class="ml-4 mr-4  mt-2  hover:scale-105 hover:border-gray-600 hover:shahdow-xl rounded-md border border-gray-200 p-1 shadow-lg md:ml-0 md:mr-2">
-    <a href="${data[i].url}">
-            <h5 class="text-xl font-semibold">${data[i].subject}</h5>
-    <div class="flex flex-row justify-between">
-        <p class="text-sm font-medium text-black">
-            <strong>Course Code: </strong>
-            <span class="font-normal">${data[i].coursecode}</span>
-        </p>
-        <div class="flex">
-            <p class="text-sm font-bold md:ml-2">${data[i].papertype} - ${data[i].papertime}</p>
-            <div class="mr-4 ml-8">
-                
-                    <button class="rounded bg-blue-600 px-2">
-                        <i class="fa-solid fa-angle-right" style="color: #ffffff;"></i>
-                    </button>
-                
-            </div>
-        </div>
-    </div>
-    <p class="text-sm font-medium text-black">
-        <strong>Teacher: </strong>
-        <span class="font-normal">${data[i].teacher}</span>
-    </p>
-    </a>
-</div>
-
-</div>
-
-
-
-
-
+                                    <div class="ml-4 mr-4 mt-2 hover:scale-105 hover:border-gray-600 hover:shadow-xl rounded-md border border-gray-200 p-1 shadow-lg md:ml-0 md:mr-2">
+                                        <a href="${data[i].url}">
+                                            <h5 class="text-xl font-semibold">${data[i].subject}</h5>
+                                            <div class="flex flex-row justify-between">
+                                                <p class="text-sm font-medium text-black">
+                                                    <strong>Course Code: </strong>
+                                                    <span class="font-normal">${data[i].coursecode}</span>
+                                                </p>
+                                                <div class="flex">
+                                                    <p class="text-sm font-bold md:ml-2">${data[i].papertype} - ${data[i].papertime}</p>
+                                                    <div class="mr-4 ml-8">
+                                                        <button class="rounded bg-blue-600 px-2">
+                                                            <i class="fa-solid fa-angle-right" style="color: #ffffff;"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p class="text-sm font-medium text-black">
+                                                <strong>Teacher: </strong>
+                                                <span class="font-normal">${data[i].teacher}</span>
+                                            </p>
+                                        </a>
+                                    </div>
+                                </div>
                                 `;
                             }
                         } else {
-                            html = '<p class="text-center text-gray-500 text-center ">Nothing to Show</p>';
+                            html = '<p class="text-center text-gray-500">No papers uploaded yet</p>';
                         }
-                        $("#search-results").html(html); // Make sure this element exists in your HTML
+                        $("#search-results").html(html); // Update search results container
                     },
                     error: function(xhr, status, error) {
                         console.error('AJAX Error: ' + error);

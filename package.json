@@ -1,15 +1,12 @@
 {
   "private": true,
   "type": "module",
-  
-    "scripts": {
-      "dev": "vite",
-      "dev:dotenv": "dotenvx run -- vite",
-      "build": "vite build",
-      "heroku-postbuild": "npm run build"
-    },
-  
-  
+  "scripts": {
+    "dev": "vite",
+    "dev:dotenv": "dotenvx run -- vite",
+    "build": "vite build",
+    "heroku-postbuild": "npm run build"
+  },
   "devDependencies": {
     "autoprefixer": "^10.4.19",
     "axios": "^1.6.4",
@@ -57,6 +54,7 @@
     "escalade": "^3.1.2",
     "fast-glob": "^3.3.2",
     "fastq": "^1.17.1",
+    "file-saver": "^2.0.5",
     "fill-range": "^7.1.1",
     "follow-redirects": "^1.15.6",
     "foreground-child": "^3.2.1",
@@ -75,6 +73,7 @@
     "isexe": "^2.0.0",
     "jackspeak": "^3.4.3",
     "jiti": "^1.21.6",
+    "jquery": "^3.7.1",
     "lilconfig": "^2.1.0",
     "lines-and-columns": "^1.2.4",
     "lru-cache": "^10.4.3",
