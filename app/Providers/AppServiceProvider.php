@@ -26,9 +26,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-      /* Use https links instead http links */
-      if (app()->environment('remote')) {
-        URL::forceScheme('https');
-    }
+        if (config('app.env') === 'production') {
+            URL::forceScheme('https');
+        }
     }
 }
