@@ -269,7 +269,7 @@ public function search(Request $request)
 
         $data = $pastPapers
             ->where('department', $department) // Filter by department
-            ->where('Subject', 'LIKE', '%' . $request->search . '%')
+            ->where('subject', 'LIKE', '%' . $request->search . '%')
             ->get()
             ->map(function ($paper) {
                 // Add the view URL to each paper

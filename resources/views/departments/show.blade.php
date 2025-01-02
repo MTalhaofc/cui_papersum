@@ -52,79 +52,61 @@
     </div>
 
     <script>
-   $(document).ready(function() {
-    console.log("Document is ready."); // Log when the document is fully loaded
+        $(document).ready(function() {
+            var department = @json($department);
 
-    var department = @json($department);
-    console.log("Department loaded:", department); // Log the department value
+            $("#search").on('keyup', function() {
+                var value = $(this).val();
 
-    $("#search").on('keyup', function() {
-        var value = $(this).val();
-        console.log("Search input value:", value); // Log the value entered in the search box
-
-        $.ajax({
-            url: "{{ route('pastpapersshow') }}",
-            type: "GET",
-            data: {
-                'search': value,
-                'department': department
-            },
-            beforeSend: function() {
-                console.log("Sending AJAX request with data:", { search: value, department: department });
-            },
-            success: function(data) {
-                console.log("AJAX request successful. Response data:", data); // Log the response data
-
-                var html = '';
-                if (data.length > 0) {
-                    console.log("Papers found:", data.length); // Log the number of papers returned
-                    data.forEach(function(paper, index) {
-                        console.log(`Processing paper ${index + 1}:`, paper); // Log each paper object
-                        html += `
-                        <div class="landing-page">
-                            <div class="ml-4 mr-4 mt-2 hover:scale-105 hover:border-gray-600 hover:shadow-xl rounded-md border border-gray-200 p-1 shadow-lg md:ml-0 md:mr-2">
-                                <a href="${paper.url}">
-                                    <h5 class="text-xl font-semibold">${paper.subject}</h5>
-                                    <div class="flex flex-row justify-between">
-                                        <p class="text-sm font-medium text-black">
-                                            <strong>Course Code: </strong>
-                                            <span class="font-normal">${paper.coursecode}</span>
-                                        </p>
-                                        <div class="flex">
-                                            <p class="text-sm font-bold md:ml-2">${paper.papertype} - ${paper.papertime}</p>
-                                            <div class="mr-4 ml-8">
-                                                <button class="rounded bg-blue-600 px-2">
-                                                    <i class="fa-solid fa-angle-right" style="color: #ffffff;"></i>
-                                                </button>
+                $.ajax({
+                    url: "{{ route('pastpapersshow') }}",
+                    type: "GET",
+                    data: {
+                        'search': value,
+                        'department': department // Pass department to the server
+                    },
+                    success: function(data) {
+                        var html = '';
+                        if(data.length > 0) {
+                            for(let i = 0; i < data.length; i++) {
+                                html += 
+                                <div class="landing-page">
+                                    <div class="ml-4 mr-4 mt-2 hover:scale-105 hover:border-gray-600 hover:shadow-xl rounded-md border border-gray-200 p-1 shadow-lg md:ml-0 md:mr-2">
+                                        <a href="${data[i].url}">
+                                            <h5 class="text-xl font-semibold">${data[i].subject}</h5>
+                                            <div class="flex flex-row justify-between">
+                                                <p class="text-sm font-medium text-black">
+                                                    <strong>Course Code: </strong>
+                                                    <span class="font-normal">${data[i].coursecode}</span>
+                                                </p>
+                                                <div class="flex">
+                                                    <p class="text-sm font-bold md:ml-2">${data[i].papertype} - ${data[i].papertime}</p>
+                                                    <div class="mr-4 ml-8">
+                                                        <button class="rounded bg-blue-600 px-2">
+                                                            <i class="fa-solid fa-angle-right" style="color: #ffffff;"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
+                                            <p class="text-sm font-medium text-black">
+                                                <strong>Teacher: </strong>
+                                                <span class="font-normal">${data[i].teacher}</span>
+                                            </p>
+                                        </a>
                                     </div>
-                                    <p class="text-sm font-medium text-black">
-                                        <strong>Teacher: </strong>
-                                        <span class="font-normal">${paper.teacher}</span>
-                                    </p>
-                                </a>
-                            </div>
-                        </div>
-                        `;
-                    });
-                } else {
-                    console.log("No papers found."); // Log if no papers are found
-                    html = '<p class="text-center text-gray-500">No papers uploaded yet</p>';
-                }
-                $("#search-results").html(html); // Update search results container
-                console.log("Search results updated."); // Log when the results are updated
-            },
-            error: function(xhr, status, error) {
-                console.error("AJAX request failed."); // Log when the AJAX request fails
-                console.error("Status:", status); // Log the status
-                console.error("Error:", error); // Log the error message
-                console.error("Response Text:", xhr.responseText); // Log the server's response text
-
-                $("#search-results").html('<p class="text-center text-red-500">Something went wrong. Please try again later.</p>');
-            }
+                                </div>
+                                ;
+                            }
+                        } else {
+                            html = '<p class="text-center text-gray-500">No papers uploaded yet</p>';
+                        }
+                        $("#search-results").html(html); // Update search results container
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX Error: ' + error);
+                    }
+                });
+            });
         });
-    });
-});
-</script>
+    </script>
 @endsection
