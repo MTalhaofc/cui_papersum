@@ -280,7 +280,7 @@ public function search(Request $request)
         return response()->json($data);
     } else {
         $data = $pastPapers->get();
-        return view('pastpapers.show', compact('data'));
+        return view('departments.show', compact('data'));
     }
 }
 
