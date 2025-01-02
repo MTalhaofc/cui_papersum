@@ -69,7 +69,7 @@
                         var html = '';
                         if(data.length > 0) {
                             for(let i = 0; i < data.length; i++) {
-                                html += 
+                                html +=` 
                                 <div class="landing-page">
                                     <div class="ml-4 mr-4 mt-2 hover:scale-105 hover:border-gray-600 hover:shadow-xl rounded-md border border-gray-200 p-1 shadow-lg md:ml-0 md:mr-2">
                                         <a href="${data[i].url}">
@@ -94,7 +94,7 @@
                                             </p>
                                         </a>
                                     </div>
-                                </div>
+                                </div>`
                                 ;
                             }
                         } else {
