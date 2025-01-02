@@ -63,7 +63,7 @@
                     </a>
                     
                     <!-- Edit/Delete Buttons (if authorized) -->
-                    @if(Auth::id() === $pastPaper->user_id)
+                    @if(Auth::check())
                     <div class="flex flex-wrap gap-2">
                         <!-- Edit Button -->
                         <a href="{{ route('pastpapers.edit', $pastPaper->id) }}" class="px-4 py-2 bg-yellow-500 text-white rounded-lg shadow-sm hover:bg-yellow-600 transition-colors">
