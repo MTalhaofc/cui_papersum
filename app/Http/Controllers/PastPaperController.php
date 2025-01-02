@@ -119,7 +119,7 @@ class PastPaperController extends Controller
         
 
     public function edit(PastPaper $pastpaper) {
-        if (Auth::id() !== $pastpaper->user_id) {
+        if (Auth::check()) {
             abort(403, 'Unauthorized action.');
         }
         return view('pastpapers.edit', compact('pastpaper'));
@@ -128,7 +128,7 @@ class PastPaperController extends Controller
     public function update(Request $request, PastPaper $pastpaper)
     {
         // Ensure the authenticated user is the owner of the past paper
-        if (Auth::id() !== $pastpaper->user_id) {
+        if (Auth::check()) {
             abort(403, 'Unauthorized action.');
         }
     
@@ -184,7 +184,7 @@ class PastPaperController extends Controller
     public function destroy(PastPaper $pastpaper)
 {
     // Ensure the user is authorized to delete the past paper
-    if (Auth::id() !== $pastpaper->user_id) {
+    if (Auth::check()) {
         abort(403, 'Unauthorized action.');
     }
 
