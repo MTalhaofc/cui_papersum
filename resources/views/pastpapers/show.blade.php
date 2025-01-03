@@ -10,12 +10,12 @@
         </div>
 
         <div class="flex flex-row justify-start md:justify-center">
-            <p class="text-sm font-medium ml-2 text-black"><strong class="text-black">Course Code:</strong> <span class="font-normal">{{ $pastpaper->coursecode }}</span></p>
-            <div class="flex">
-                <p class="text-sm font-bold ml-8">{{ $pastpaper->papertype }} - {{ $pastpaper->papertime }}</p>
+            <p class="text-sm font-medium ml-2 text-black"><i class="fa-solid fa-book-open mr-2 text-blue-600"></i><strong class="text-black">Course Code:</strong> <span class="font-normal">{{ $pastpaper->coursecode }}</span></p>
+            <div class="flex"> 
+                <p class="text-sm font-bold ml-8"> <i class="fa-solid fa-clock mr-2 text-red-600"></i>{{ $pastpaper->papertype }} - {{ $pastpaper->papertime }}</p>
             </div>
         </div>
-        <p class="text-sm font-medium ml-2 text-black md:text-center"><strong class="text-black">Teacher Name:</strong><span class="font-normal"> {{ $pastpaper->teacher }}</span></p>
+        <p class="text-sm font-medium ml-2 text-black md:text-center"><i class="fa-solid fa-user-tie mr-2 text-purple-600"></i><strong class="text-black">Teacher Name:</strong><span class="font-normal"> {{ $pastpaper->teacher }}</span></p>
 
         <div class="mt-4">
             <div class="flex flex-col md:flex-row md:justify-center md:gap-6">

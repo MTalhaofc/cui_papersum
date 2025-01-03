@@ -304,7 +304,7 @@ public function pastPapersShow(Request $request)
 
         $data = $pastPapers
            
-            ->where('Subject', 'LIKE', '%' . $request->search . '%')
+            ->where('subject', 'LIKE', '%' . $request->search . '%')
             ->get()
             ->map(function ($paper) {
                 // Add the view URL to each paper
