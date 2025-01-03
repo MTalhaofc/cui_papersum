@@ -5,15 +5,20 @@
         <h1 class="text-2xl font-bold mb-5">Past Papers</h1>
         
         @if(session('urls'))
-    <div>
-        <h5>Uploaded Files:</h5>
-        <ul>
-            @foreach(session('urls') as $url)
-                <li><a href="{{ $url }}" target="_blank">{{ $url }}</a></li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+        <div class="bg-gray-100 rounded-lg shadow-md p-4 mt-6">
+            <h5 class="text-lg font-bold text-blue-700 mb-3">Uploaded Files:</h5>
+            <ul class="list-disc list-inside space-y-2">
+                @foreach(session('urls') as $url)
+                    <li>
+                        <a href="{{ $url }}" target="_blank" class="text-blue-600 hover:underline hover:text-blue-800 break-words">
+                            {{ $url }}
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    
         <!-- Search Box -->
         <div class="max-w-md mx-auto mb-6">
             <div class="relative">

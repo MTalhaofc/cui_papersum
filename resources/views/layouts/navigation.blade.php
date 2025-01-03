@@ -3,7 +3,7 @@
                                 @auth
                                     <a
                                         href="{{ url('/home') }}"
-                                        class="hover:bg-slate-500"
+                                        class="hover:bg-[#007FFF] ml-6 md:ml-0 text-xs hover:text-white md:text-base hover:rounded hover:p-1 text-[#007FFF]"
                                     >
                                         Home
                                     </a>
