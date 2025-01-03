@@ -260,29 +260,31 @@ public function download($file_path)
 
 
 
-public function search(Request $request)
-{
-    $pastPapers = PastPaper::query();
-
-    if ($request->ajax()) {
-        $department = $request->input('department');
-
-        $data = $pastPapers
-            ->where('department', $department) // Filter by department
-            ->where('subject', 'LIKE', '%' . $request->search . '%')
-            ->get()
-            ->map(function ($paper) {
-                // Add the view URL to each paper
-                $paper->url = route('pastpapers.show', $paper);
-                return $paper;
-            });
-
-        return response()->json($data);
-    } else {
-        $data = $pastPapers->get();
-        return view('departments.show', compact('data'));
+    public function search(Request $request)
+    {
+        $pastPapers = PastPaper::query();
+    
+        if ($request->ajax()) {
+            $department = $request->input('department');
+            $search = strtolower($request->search); // Convert the input to lowercase
+    
+            $data = $pastPapers
+                ->where('department', $department) // Filter by department
+                ->whereRaw('LOWER(subject) LIKE ?', ['%' . $search . '%']) // Case-insensitive search
+                ->get()
+                ->map(function ($paper) {
+                    // Add the view URL to each paper
+                    $paper->url = route('pastpapers.show', $paper);
+                    return $paper;
+                });
+    
+            return response()->json($data);
+        } else {
+            $data = $pastPapers->get();
+            return view('departments.show', compact('data'));
+        }
     }
-}
+    
 
 
 public function search_home()
