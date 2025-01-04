@@ -2,7 +2,19 @@
 
 @section('content')
     <div class=" mt-2">
-        <h1 class="text-2xl font-bold text-center mt-6 mb-5">{{ $department }} Past Papers</h1>
+        <div class="flex items-center justify-between mb-2 w-full">
+            <!-- Back to Departments Button -->
+            <a href="/" class="inline-flex items-center px-2 py-1 text-blue-600 ml-2 underline hover:bg-blue-600 hover:text-white font-medium text-sm rounded-md transition duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Departments
+            </a>
+        
+            <!-- Department Name centered in the remaining space -->
+            <h1 class="text-2xl font-bold text-center mr-32 flex-grow">{{ $department }} Past Papers</h1>
+        </div>
+        
         <div class="max-w-md mx-auto">
             <div class="relative mr-6 ml-6 md:mr-0 md:ml-0">
                 <div class="absolute inset-y-0 left-0 flex items-center">
@@ -12,7 +24,16 @@
                         </svg>
                     </div>
                 </div>
-                <input type="search" id="search" name="search" class="block w-full p-2 pl-12 pr-4 text-sm text-gray-900 border border-gray-200 rounded-lg rounded-l-none bg-white dark:text-black" placeholder="Search by Subject Name..." required />
+                <input 
+    type="search" 
+    id="search" 
+    name="search" 
+    class="block w-full p-2 pl-12 pr-4 text-sm text-gray-900 border border-gray-200 rounded-lg rounded-l-none bg-white dark:text-black no-clear-button" 
+    placeholder="Search by Subject Name..." 
+    autocomplete="off" 
+    onsearch="return false;" 
+    required 
+/>
             </div>
         </div>
 
@@ -22,35 +43,61 @@
                     <h4 class="text-black">No papers uploaded yet</h4>
                 </div>
             @else
-                @foreach($pastPapers as $pastPaper)
-                    <div class="ml-4 mr-4 mt-2 md:w-1/3 hover:scale-105 hover:border-gray-600 hover:shadow-xl rounded-md border border-gray-200 p-1 shadow-lg md:ml-0 md:mr-2">
-                        <a href="{{ route('pastpapers.show', $pastPaper) }}">
-                            <h5 class="text-xl font-semibold">{{ $pastPaper->subject }}</h5>
-                            <div class="flex flex-row justify-between">
-                                <p class="text-sm font-medium text-black"> 
-                                    <strong>Course Code: </strong> 
-                                    <span class="font-normal">{{ $pastPaper->coursecode }}</span>
-                                </p>
-                                <div class="flex">
-                                    <p class="text-sm font-bold md:ml-2">{{ $pastPaper->papertype }} - {{ $pastPaper->papertime }}</p>
-                                    <div class="mr-4 ml-8">
-                                        <button class="rounded bg-blue-600 px-2 hover:bg-blue-800">
-                                            <i class="fa-solid fa-angle-right" style="color: #ffffff;"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="text-sm font-medium text-black">
-                                <strong>Teacher: </strong>
-                                <span class="font-normal">{{ $pastPaper->teacher }}</span>
+            @foreach($pastPapers as $pastPaper)
+            <div class="ml-4 mr-4 mt-2 md:w-1/3 hover:scale-105 hover:border-gray-600 hover:shadow-xl rounded-md border border-gray-200 p-1 shadow-lg md:ml-0 md:mr-2">
+                <a href="{{ route('pastpapers.show', $pastPaper) }}">
+                    <h5 class="text-xl font-semibold">{{ $pastPaper->subject }}</h5>
+                    <div class="flex flex-row justify-between">
+                        <!-- Course Code -->
+                        <p class="text-sm font-medium text-black flex items-center"> 
+                            <i class="fas fa-bookmark mr-2 text-blue-600"></i> <!-- Blue Course Code Icon -->
+                            <strong>Course Code: </strong> 
+                            <span class="font-normal">{{ $pastPaper->coursecode }}</span>
+                        </p>
+        
+                        <div class="flex">
+                            <!-- Paper Type & Time -->
+                            <p class="text-sm font-bold md:ml-2 flex items-center">
+                                <i class="fas fa-clock mr-2 text-green-600"></i> <!-- Green Time Icon -->
+                                {{ $pastPaper->papertype }} - {{ $pastPaper->papertime }}
                             </p>
-                        </a>
+        
+                            <div class="mr-4 ml-8">
+                                <button class="rounded bg-blue-600 px-2 hover:bg-blue-800">
+                                    <i class="fa-solid fa-angle-right" style="color: #ffffff;"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                @endforeach
+        
+                    <!-- Teacher -->
+                    <p class="text-sm font-medium text-black flex items-center">
+                        <i class="fas fa-chalkboard-teacher mr-2 text-red-600"></i> <!-- Red Teacher Icon -->
+                        <strong>Teacher: </strong>
+                        <span class="font-normal">{{ $pastPaper->teacher }}</span>
+                    </p>
+                </a>
+            </div>
+        @endforeach
+        
             @endif
         </div>
     </div>
-
+    <style>
+        /* Remove the cross button for modern browsers */
+        input[type="search"]::-webkit-search-cancel-button {
+            display: none; /* For Chrome, Safari, Edge */
+        }
+    
+        input[type="search"]::-moz-search-clear {
+            display: none; /* For Firefox */
+        }
+    
+        /* General fallback for other browsers */
+        input[type="search"] {
+            appearance: none; /* Standard styling override */
+        }
+    </style>
     <script>
         $(document).ready(function() {
             var department = @json($department);
