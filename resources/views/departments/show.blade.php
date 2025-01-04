@@ -2,18 +2,7 @@
 
 @section('content')
     <div class=" mt-2">
-        <div class="flex items-center justify-between mb-2 w-full">
-            <!-- Back to Departments Button -->
-            <a href="/" class="inline-flex items-center px-2 py-1 text-blue-600 ml-2 underline hover:bg-blue-600 hover:text-white font-medium text-sm rounded-md transition duration-300">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
-                Departments
-            </a>
-        
-            <!-- Department Name centered in the remaining space -->
-            <h1 class="text-2xl font-bold text-center mr-32 flex-grow">{{ $department }} Past Papers</h1>
-        </div>
+        <h1 class="text-2xl font-bold text-center mt-6 mb-5">{{ $department }} Past Papers</h1>
         
         <div class="max-w-md mx-auto">
             <div class="relative mr-6 ml-6 md:mr-0 md:ml-0">
@@ -58,7 +47,7 @@
                         <div class="flex">
                             <!-- Paper Type & Time -->
                             <p class="text-sm font-bold md:ml-2 flex items-center">
-                                <i class="fas fa-clock mr-2 text-green-600"></i> <!-- Green Time Icon -->
+                                <i class="fas fa-clock ml-2 mr-2 text-green-600"></i> <!-- Green Time Icon -->
                                 {{ $pastPaper->papertype }} - {{ $pastPaper->papertime }}
                             </p>
         
@@ -73,8 +62,8 @@
                     <!-- Teacher -->
                     <p class="text-sm font-medium text-black flex items-center">
                         <i class="fas fa-chalkboard-teacher mr-2 text-red-600"></i> <!-- Red Teacher Icon -->
-                        <strong>Teacher: </strong>
-                        <span class="font-normal">{{ $pastPaper->teacher }}</span>
+                        <strong>Teacher:  </strong>
+                        <span class="font-normal"> {{ $pastPaper->teacher }}</span>
                     </p>
                 </a>
             </div>
@@ -116,32 +105,43 @@
                         var html = '';
                         if(data.length > 0) {
                             for(let i = 0; i < data.length; i++) {
-                                html +=` 
-                                <div class="landing-page">
-                                    <div class="ml-4 mr-4 mt-2 hover:scale-105 hover:border-gray-600 hover:shadow-xl rounded-md border border-gray-200 p-1 shadow-lg md:ml-0 md:mr-2">
-                                        <a href="${data[i].url}">
-                                            <h5 class="text-xl font-semibold">${data[i].subject}</h5>
-                                            <div class="flex flex-row justify-between">
-                                                <p class="text-sm font-medium text-black">
-                                                    <strong>Course Code: </strong>
-                                                    <span class="font-normal">${data[i].coursecode}</span>
-                                                </p>
-                                                <div class="flex">
-                                                    <p class="text-sm font-bold md:ml-2">${data[i].papertype} - ${data[i].papertime}</p>
-                                                    <div class="mr-4 ml-8">
-                                                        <button class="rounded bg-blue-600 px-2">
-                                                            <i class="fa-solid fa-angle-right" style="color: #ffffff;"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <p class="text-sm font-medium text-black">
-                                                <strong>Teacher: </strong>
-                                                <span class="font-normal">${data[i].teacher}</span>
-                                            </p>
-                                        </a>
-                                    </div>
-                                </div>`
+                                html +=`<div class="landing-page">
+    <div class="ml-4 mr-4 mt-2 hover:scale-105 hover:border-gray-600 hover:shadow-xl rounded-md border border-gray-200 p-1 shadow-lg md:ml-0 md:mr-2">
+        <a href="${data[i].url}">
+            <h5 class="text-xl font-semibold">${data[i].subject}</h5>
+            <div class="flex flex-row justify-between">
+                <!-- Course Code with Icon -->
+                <p class="text-sm font-medium text-black flex items-center">
+                    <i class="fas fa-bookmark mr-2 text-blue-600"></i> <!-- Blue Course Code Icon -->
+                    <strong>Course Code: </strong>
+                    <span class="font-normal">${data[i].coursecode}</span>
+                </p>
+
+                <div class="flex">
+                    <!-- Paper Type and Time with Icon -->
+                    <p class="text-sm font-bold md:ml-2 flex items-center">
+                        <i class="fas fa-clock mr-2 ml-2 text-green-600"></i> <!-- Green Time Icon -->
+                        ${data[i].papertype} - ${data[i].papertime}
+                    </p>
+
+                    <div class="mr-4 ml-8">
+                        <button class="rounded bg-blue-600 px-2">
+                            <i class="fa-solid fa-angle-right" style="color: #ffffff;"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Teacher with Icon -->
+            <p class="text-sm font-medium text-black flex items-center">
+                <i class="fas fa-chalkboard-teacher mr-2 text-red-600"></i> <!-- Red Teacher Icon -->
+                <strong>Teacher: </strong>
+                <span class="font-normal">${data[i].teacher}</span>
+            </p>
+        </a>
+    </div>
+</div>`
+
                                 ;
                             }
                         } else {
