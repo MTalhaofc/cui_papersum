@@ -104,4 +104,19 @@
             $(".filter-checkbox").on("change", filterResults);
         });
     </script>
+    <style>
+        /* Remove the clear (cross) button in modern browsers */
+        input[type="search"]::-webkit-search-cancel-button {
+            display: none; /* Chrome, Safari, Edge */
+        }
+    
+        input[type="search"]::-moz-search-clear {
+            display: none; /* Firefox */
+        }
+    
+        /* General fallback for other browsers */
+        input[type="search"] {
+            appearance: none;
+        }
+    </style>
 @endsection
