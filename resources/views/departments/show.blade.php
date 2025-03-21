@@ -18,7 +18,7 @@
                     id="search" 
                     name="search" 
                     class="block w-full p-2 pl-12 pr-4 text-sm text-gray-900 border border-gray-200 rounded-lg rounded-l-none bg-white dark:text-black" 
-                    placeholder="Search by Subject Name..." 
+                    placeholder="Search by Subject Name/Course Code..." 
                     autocomplete="off" 
                     required 
                 />
@@ -55,8 +55,7 @@
                                 <p class="text-sm font-medium text-black flex items-center">
                                     <i class="fas fa-bookmark mr-2 text-blue-600"></i>
                                     <strong>Course Code: </strong> 
-                                    <span class="font-normal">{{ $pastPaper->coursecode }}</span>
-                                </p>
+                                    <span class="font-normal course-code">{{ $pastPaper->coursecode }}</span>                                </p>
                                 <div class="flex">
                                     <p class="text-sm font-bold md:ml-2 flex items-center">
                                         <i class="fas fa-clock ml-2 mr-2 text-green-600"></i>
@@ -82,27 +81,29 @@
     </div>
 
     <script>
-        $(document).ready(function() {
-            function filterResults() {
-                var searchText = $("#search").val().toLowerCase();
-                var selectedTypes = $(".filter-checkbox:checked").map(function() {
-                    return $(this).val();
-                }).get();
+      $(document).ready(function() {
+    function filterResults() {
+        var searchText = $("#search").val().toLowerCase();
+        var selectedTypes = $(".filter-checkbox:checked").map(function() {
+            return $(this).val();
+        }).get();
 
-                $(".paper-item").each(function() {
-                    var subject = $(this).find("h5").text().toLowerCase();
-                    var type = $(this).data("type");
+        $(".paper-item").each(function() {
+            var subject = $(this).find("h5").text().toLowerCase();
+            var courseCode = $(this).find(".course-code").text().toLowerCase(); // Get course code
 
-                    var matchesSearch = subject.includes(searchText);
-                    var matchesFilter = selectedTypes.length === 0 || selectedTypes.includes(type) || (type === "Final" && selectedTypes.includes("Terminal"));
+            var matchesSearch = subject.includes(searchText) || courseCode.includes(searchText);
+            var type = $(this).data("type");
+            var matchesFilter = selectedTypes.length === 0 || selectedTypes.includes(type) || (type === "Final" && selectedTypes.includes("Terminal"));
 
-                    $(this).toggle(matchesSearch && matchesFilter);
-                });
-            }
-
-            $("#search").on("keyup", filterResults);
-            $(".filter-checkbox").on("change", filterResults);
+            $(this).toggle(matchesSearch && matchesFilter);
         });
+    }
+
+    $("#search").on("keyup", filterResults);
+    $(".filter-checkbox").on("change", filterResults);
+});
+
     </script>
     <style>
         /* Remove the clear (cross) button in modern browsers */

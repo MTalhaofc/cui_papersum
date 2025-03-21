@@ -33,7 +33,7 @@
                 @else
                     {{-- <a href="{{ route('login') }}">Login</a>
                     <a href="{{ route('register') }}">Register</a> --}}
-                    <a class="hover:bg-[#007FFF] ml-6 md:ml-0 text-xs hover:text-white md:text-base hover:rounded hover:p-1 text-[#007FFF]" target="_blank" href="mailto:talha0750@gmail.com">Contribute a Paper</a>
+                    <a class="hover:bg-[#007FFF] ml-6 md:ml-0 text-xs hover:text-white md:text-base hover:rounded hover:p-1 text-[#007FFF]" target="_blank" href="{{route("public.addpaper")}}">Contribute a Paper</a>
 
                     @endif
                 @include('layouts.navigation')

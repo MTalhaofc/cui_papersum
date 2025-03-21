@@ -261,37 +261,41 @@ public function download($file_path)
 
 
     public function search(Request $request)
-    {
-        $pastPapers = PastPaper::query();
-    
-        if ($request->ajax()) {
-            $department = $request->input('department');
-            $search = strtolower($request->search); // Convert the input to lowercase
-    
-            $data = $pastPapers
-                ->where('department', $department) // Filter by department
-                ->whereRaw('LOWER(subject) LIKE ?', ['%' . $search . '%']) // Case-insensitive search
-                ->get()
-                ->map(function ($paper) {
-                    // Add the view URL to each paper
-                    $paper->url = route('pastpapers.show', $paper);
-                    return $paper;
-                });
-    
-            return response()->json($data);
-        } else {
-            $data = $pastPapers->get();
-            return view('departments.show', compact('data'));
-        }
-    }
-    
-
-
-public function search_home()
 {
-    $search = $request->input('search');
-    $papers = PastPaper::where('subject', 'like', "%{$search}%")
-        ->orWhere('coursecode', 'like', "%{$search}%")
+    $pastPapers = PastPaper::query();
+
+    if ($request->ajax()) {
+        $department = $request->input('department');
+        $search = strtolower($request->search); // Convert input to lowercase
+
+        $data = $pastPapers
+            ->where('department', $department) // Filter by department
+            ->where(function ($query) use ($search) {
+                $query->whereRaw('LOWER(subject) LIKE ?', ['%' . $search . '%'])
+                      ->orWhereRaw('LOWER(coursecode) LIKE ?', ['%' . $search . '%']); // Case-insensitive search for coursecode
+            })
+            ->get()
+            ->map(function ($paper) {
+                // Add the view URL to each paper
+                $paper->url = route('pastpapers.show', $paper);
+                return $paper;
+            });
+
+        return response()->json($data);
+    } else {
+        $data = $pastPapers->get();
+        return view('departments.show', compact('data'));
+    }
+}
+
+
+
+public function search_home(Request $request)
+{
+    $search = strtolower($request->input('search')); // Convert input to lowercase
+
+    $papers = PastPaper::whereRaw('LOWER(subject) LIKE ?', ["%{$search}%"])
+        ->orWhereRaw('LOWER(coursecode) LIKE ?', ["%{$search}%"])
         ->get();
 
     return response()->json($papers);
@@ -302,11 +306,11 @@ public function pastPapersShow(Request $request)
     $pastPapers = PastPaper::query();
 
     if ($request->ajax()) {
-        
-
         $data = $pastPapers
-           
-            ->where('subject', 'LIKE', '%' . $request->search . '%')
+            ->where(function ($query) use ($request) {
+                $query->where('subject', 'LIKE', '%' . $request->search . '%')
+                      ->orWhere('coursecode', 'LIKE', '%' . $request->search . '%');
+            })
             ->get()
             ->map(function ($paper) {
                 // Add the view URL to each paper
@@ -320,6 +324,13 @@ public function pastPapersShow(Request $request)
         return view('home', compact('data'));
     }
 }
+
+
+
+public function addpublicpaper(){
+    return view('publicuser.add');
+}
+
 
 
 }

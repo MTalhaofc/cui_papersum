@@ -49,3 +49,8 @@ Route::get('/pastpapersearch', [PastPaperController::class, 'search'])->name('pa
 
 Route::get('/pastpapers/department/{department}', [PastPaperController::class, 'indexByDepartment'])->name('pastpapers.indexbydepartment');
 // Route::get('/download', [PastPaperController::class, 'download'])->name('download');
+
+
+
+//Routes to fetch / Add public past papers
+Route::get('/AddPaper',[PastPaperController::class, 'addpublicpaper'])->name('public.addpaper');
